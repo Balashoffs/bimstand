@@ -11,19 +11,10 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 
 @Log4j2
-public class StandWebSocketServer extends WebSocketServer implements IWSSendMessageEvent {
+public class StandWebSocketServer extends WebSocketServer {
 
     private final ArrayList<String> clientHandshakeAR = new ArrayList<>(1);
 
-    private IWSReceiveMessageEventHandler eventHandler;
-
-    public void addEventHandler(IWSReceiveMessageEventHandler handler){
-        eventHandler = handler;
-    }
-
-    public void removeEventEventHandler(IWSReceiveMessageEventHandler handler){
-        eventHandler = handler;
-    }
 
     public StandWebSocketServer(int port) {
         super(new InetSocketAddress(port));
@@ -47,9 +38,7 @@ public class StandWebSocketServer extends WebSocketServer implements IWSSendMess
 
     @Override
     public void onMessage(WebSocket webSocket, String s) {
-        if(eventHandler != null){
-            eventHandler.receive(s);
-        }
+
     }
 
     @Override
@@ -65,8 +54,5 @@ public class StandWebSocketServer extends WebSocketServer implements IWSSendMess
         setConnectionLostTimeout(100);
     }
 
-    @Override
-    public void send(String message) {
-        getConnections().stream().findFirst().ifPresent(webSocket -> webSocket.send(message));
-    }
+
 }

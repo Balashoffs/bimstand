@@ -4,13 +4,14 @@ import com.bablshoff.bimstand.event.EventManager;
 
 import com.bablshoff.bimstand.stand.StandManager;
 import com.bablshoff.bimstand.ws.StandWebSocketServer;
+import com.bablshoff.bimstand.ws.StandWebSocketServerEvents;
 
 public class Main {
     public static void main(String[] args) {
         //TODO Start web socket server
         EventManager eventManager = EventManager.getInstance();
 
-        StandWebSocketServer server = new StandWebSocketServer(12345);
+        StandWebSocketServerEvents server = new StandWebSocketServerEvents(12345);
         eventManager.getWsSendMessageEventHandler().addActionListener(server);
 
         server.addEventHandler(eventManager.getWsReceiveMessageEventHandler());
