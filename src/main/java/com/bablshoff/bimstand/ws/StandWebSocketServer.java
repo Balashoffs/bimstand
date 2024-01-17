@@ -1,7 +1,5 @@
 package com.bablshoff.bimstand.ws;
 
-import com.bablshoff.bimstand.event.receive.IWSReceiveMessageEventHandler;
-import com.bablshoff.bimstand.event.send.IWSSendMessageEvent;
 import lombok.extern.log4j.Log4j2;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;

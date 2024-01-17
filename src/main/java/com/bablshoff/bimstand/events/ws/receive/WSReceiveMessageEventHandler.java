@@ -1,4 +1,4 @@
-package com.bablshoff.bimstand.event.receive;
+package com.bablshoff.bimstand.events.ws.receive;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 

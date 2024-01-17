@@ -8,7 +8,9 @@ open module com.balashoff.bimstand {
     exports com.bablshoff.bimstand.components.internal;
     exports com.bablshoff.bimstand.components.internal.rfid;
     exports com.bablshoff.bimstand.helpers;
-    exports com.bablshoff.bimstand.event.send;
+    exports com.bablshoff.bimstand.events.ws.send;
+    exports com.bablshoff.bimstand.model;
+    exports com.bablshoff.bimstand.model.curtains;
 
 
     // Pi4J Modules
@@ -32,4 +34,5 @@ open module com.balashoff.bimstand {
     requires org.java_websocket;
     requires javax.websocket.api;
     requires lombok;
+    requires com.google.gson;
 }

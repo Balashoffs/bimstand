@@ -1,7 +1,7 @@
 package com.bablshoff.bimstand.ws;
 
-import com.bablshoff.bimstand.event.receive.IWSReceiveMessageEventHandler;
-import com.bablshoff.bimstand.event.send.IWSSendMessageEvent;
+import com.bablshoff.bimstand.events.ws.receive.IWSReceiveMessageEventHandler;
+import com.bablshoff.bimstand.events.ws.send.IWSSendMessageEvent;
 import org.java_websocket.WebSocket;
 
 public class StandWebSocketServerEvents extends StandWebSocketServer implements IWSSendMessageEvent {

@@ -1,9 +1,8 @@
 package com.bablshoff.bimstand;
 
-import com.bablshoff.bimstand.event.EventManager;
+import com.bablshoff.bimstand.events.EventManager;
 
-import com.bablshoff.bimstand.stand.StandManager;
-import com.bablshoff.bimstand.ws.StandWebSocketServer;
+import com.bablshoff.bimstand.stand.MessageManager;
 import com.bablshoff.bimstand.ws.StandWebSocketServerEvents;
 
 public class Main {
@@ -18,11 +17,12 @@ public class Main {
         server.start();
         //TODO Bim Stand service
 
-        StandManager standManager = new StandManager();
+        MessageManager standManager = new MessageManager();
         eventManager.getWsReceiveMessageEventHandler().addActionListener(standManager);
+        eventManager.getDeviceReceiveMessageEventHandler().addActionListener(standManager);
         standManager.addEventHandler(eventManager.getWsSendMessageEventHandler());
+        standManager.addEventHandler(eventManager.getDeviceSendMessageEventHandler());
 
-        standManager.start();
 
         //TODO start PI4J service
     }
