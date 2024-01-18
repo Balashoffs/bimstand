@@ -5,4 +5,7 @@ public enum MessageType {
     curtains_sc,
     lighting_cs,
     lighting_sc,
+
+    setup_device_sc,
+    setup_device_cs,
 }

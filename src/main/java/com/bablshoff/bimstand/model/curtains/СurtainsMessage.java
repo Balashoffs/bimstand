@@ -9,8 +9,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Builder
 public class СurtainsMessage implements IDeviceMessage {
-   private final String id;
+   private final String deviceId;
    private final boolean isOpen;
-   private final String name;
-   private final CurtainsStatus status;
+   private final int value;
+   private final String deviceName;
+   private final CurtainsStatus deviceStatus;
 }
