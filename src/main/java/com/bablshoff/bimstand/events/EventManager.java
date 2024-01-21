@@ -9,19 +9,25 @@ import lombok.Getter;
 @Getter
 public class EventManager {
     private static EventManager _instance;
-    public static EventManager getInstance(){
-        if(_instance == null){
+
+    public static EventManager getInstance() {
+        if (_instance == null) {
             _instance = new EventManager();
         }
 
         return _instance;
     }
 
-    final WSReceiveMessageEventHandler wsReceiveMessageEventHandler = new WSReceiveMessageEventHandler();
-    final WSSendMessageEventHandler wsSendMessageEventHandler = new WSSendMessageEventHandler();
-    final DeviceReceiveMessageEventHandler deviceReceiveMessageEventHandler = new  DeviceReceiveMessageEventHandler();
-    final DeviceSendMessageEventHandler deviceSendMessageEventHandler = new  DeviceSendMessageEventHandler();
+    private final WSReceiveMessageEventHandler wsReceiveMessageEventHandler;
+    private final WSSendMessageEventHandler wsSendMessageEventHandler;
+    private final DeviceReceiveMessageEventHandler deviceReceiveMessageEventHandler;
+    private final DeviceSendMessageEventHandler deviceSendMessageEventHandler;
 
-    private EventManager(){}
+    private EventManager() {
+        wsReceiveMessageEventHandler = new WSReceiveMessageEventHandler();
+        wsSendMessageEventHandler = new WSSendMessageEventHandler();
+        deviceReceiveMessageEventHandler = new DeviceReceiveMessageEventHandler();
+        deviceSendMessageEventHandler = new DeviceSendMessageEventHandler();
+    }
 
 }

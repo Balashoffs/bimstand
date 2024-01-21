@@ -8,13 +8,23 @@ open module com.balashoff.bimstand {
     exports com.bablshoff.bimstand.components.internal;
     exports com.bablshoff.bimstand.components.internal.rfid;
     exports com.bablshoff.bimstand.helpers;
-    exports com.bablshoff.bimstand.events.ws.send;
+
+
+
+
+    exports  com.bablshoff.bimstand.ws;
+    exports  com.bablshoff.bimstand.stand;
+    exports  com.bablshoff.bimstand.stand.device;
+    exports  com.bablshoff.bimstand.model.message;
     exports com.bablshoff.bimstand.model.message.lighting;
     exports com.bablshoff.bimstand.model.message.curtains;
-    exports com.bablshoff.bimstand.events.ws.receive;
+    exports  com.bablshoff.bimstand.model.device;
+    exports  com.bablshoff.bimstand.message;
     exports com.bablshoff.bimstand.events;
-
-    exports com.bablshoff.bimstand.model.message;
+    exports com.bablshoff.bimstand.events.devices.receive;
+    exports com.bablshoff.bimstand.events.devices.send;
+    exports com.bablshoff.bimstand.events.ws.send;
+    exports com.bablshoff.bimstand.events.ws.receive;
 
 
     // Pi4J Modules
@@ -27,6 +37,7 @@ open module com.balashoff.bimstand {
 
     // Logging
     requires java.logging;
+    requires org.apache.logging.log4j;
 
 
     // PicoCLI Modules

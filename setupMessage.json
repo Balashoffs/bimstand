@@ -1,0 +1,169 @@
+{
+  "curtainsSet": [
+    {
+      "pins": [
+        4,
+        17,
+        27,
+        22
+      ],
+      "steps": [
+        [
+          3,
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3
+        ]
+      ],
+      "pulseTime": 1,
+      "name": "curtain1",
+      "id": "curtain1",
+      "maxTurnCount": 10,
+      "turnQnt": 50,
+      "type": "curtains"
+    },
+    {
+      "pins": [
+        18,
+        23,
+        24,
+        25
+      ],
+      "steps": [
+        [
+          3,
+          0
+        ],
+        [
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3
+        ]
+      ],
+      "pulseTime": 1,
+      "name": "curtain2",
+      "id": "curtain2",
+      "maxTurnCount": 10,
+      "turnQnt": 50,
+      "type": "curtains"
+    }
+  ],
+  "lightingSet": [
+    {
+      "name": "led1",
+      "id": "led1",
+      "type": "lighting",
+      "pin": 12
+    },
+    {
+      "name": "led2",
+      "id": "led2",
+      "type": "lighting",
+      "pin": 12
+    }
+  ],
+  "standStatusLed": {
+    "id": "status",
+    "name": "status",
+    "pin": 19
+  },
+  "standButtonsSet": {
+    "curtains": [
+      {
+        "id": "curtains_1_down",
+        "name": "curtains_1_down",
+        "type": "down",
+        "pin": 8,
+        "inverted": true,
+        "debounce": 10000
+      },
+      {
+        "id": "curtains_1_up",
+        "name": "curtains_1_up",
+        "type": "up",
+        "pin": 7,
+        "inverted": true,
+        "debounce": 10000
+      },
+      {
+        "id": "curtains_2_down",
+        "name": "curtains_2_down",
+        "type": "down",
+        "pin": 5,
+        "inverted": true,
+        "debounce": 10000
+      },
+      {
+        "id": "curtains_2_up",
+        "name": "curtains_2_up",
+        "type": "up",
+        "pin": 6,
+        "inverted": true,
+        "debounce": 10000
+      }
+    ],
+    "lighting": [
+      {
+        "id": "led_1",
+        "name": "led_1",
+        "type": "switch",
+        "pin": 26,
+        "inverted": true,
+        "debounce": 10000
+      },
+      {
+        "id": "led_2",
+        "name": "led_2",
+        "type": "switch",
+        "pin": 16,
+        "inverted": true,
+        "debounce": 10000
+      }
+    ]
+  },
+  "deviceType": [
+    "curtains",
+    "lighting"
+  ]
+}
