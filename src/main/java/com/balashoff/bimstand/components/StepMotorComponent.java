@@ -4,11 +4,14 @@ import com.pi4j.context.Context;
 import com.pi4j.io.gpio.digital.DigitalOutput;
 import com.pi4j.io.gpio.digital.DigitalOutputConfig;
 import com.pi4j.io.gpio.digital.DigitalState;
+import lombok.extern.log4j.Log4j2;
+
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Log4j2
 /**
  * Implementation of the CrowPi Step Motor using GPIO with Pi4J
  */
@@ -23,14 +26,14 @@ public class StepMotorComponent extends Component {
      * @see #StepMotorComponent(Context, int[], int[][], long, int, int)
      */
     private final static int[][] DEFAULT_STEPS = {
-        {3, 0},
-        {0},
-        {0, 1},
-        {1},
-        {1, 2},
-        {2},
-        {3, 2},
-        {3},
+            {3, 0},
+            {0},
+            {0, 1},
+            {1},
+            {1, 2},
+            {2},
+            {3, 2},
+            {3},
     };
     /**
      * Default duration in milliseconds when pulsing one step, increasing this value makes the step motor turn slower.
@@ -65,6 +68,7 @@ public class StepMotorComponent extends Component {
     private final int stepsByOne;
     private final AtomicInteger currentTurnCountAtomic = new AtomicInteger(0);
     private final AtomicBoolean stopFlag = new AtomicBoolean(false);
+
     public StepMotorComponent(Context pi4j) {
         this(pi4j, DEFAULT_PINS, DEFAULT_STEPS, DEFAULT_PULSE_MILLISECONDS, DEFAULT_MAX_TURN_COUNT, STEPS_BY_ONE);
     }
@@ -197,57 +201,82 @@ public class StepMotorComponent extends Component {
      */
     protected DigitalOutputConfig buildDigitalOutputConfig(Context pi4j, int address) {
         return DigitalOutput.newConfigBuilder(pi4j)
-            .id("BCM" + address)
-            .name("Step Motor @ BCM" + address)
-            .address(address)
-            .initial(DigitalState.LOW)
-            .shutdown(DigitalState.LOW)
-            .build();
+                .id("BCM" + address)
+                .name("Step Motor @ BCM" + address)
+                .address(address)
+                .initial(DigitalState.LOW)
+                .shutdown(DigitalState.LOW)
+                .build();
     }
 
     public int manualForward() {
         int currentTurnCount = currentTurnCountAtomic.get();
-        if(currentTurnCount >= 0 && currentTurnCount < maxTurnCount){
-            stopFlag.set(true);
+        if (currentTurnCount >= 0 && currentTurnCount < maxTurnCount) {
+            if (!stopFlag.get()) {
+                stopFlag.set(true);
+                return 0;
+            }
             turnForward(stepsByOne);
-           int pos = currentTurnCountAtomic.incrementAndGet();
-            return pos == 1 ? 1 : 0;
+            int pos = currentTurnCountAtomic.incrementAndGet();
+            if(pos == maxTurnCount){
+                currentTurnCountAtomic.set(maxTurnCount);
+                stopFlag.set(false);
+                return 1;
+            }
+            return 0;
         }
         return 1;
     }
 
     public int manualBackward() {
         int currentTurnCount = currentTurnCountAtomic.get();
-        if(currentTurnCount > 0 && currentTurnCount < maxTurnCount){
-            stopFlag.set(true);
+        if (currentTurnCount > 0 && currentTurnCount < maxTurnCount) {
+            if (!stopFlag.get()) {
+                stopFlag.set(true);
+                return 0;
+            }
             turnBackward(stepsByOne);
             int pos = currentTurnCountAtomic.decrementAndGet();
-            return pos == 0 ? -1 : 0;
+            if(pos == -1){
+                currentTurnCountAtomic.set(0);
+                stopFlag.set(false);
+                return -1;
+            }
+            return 0;
         }
-        return 0;
+        return -1;
     }
 
     public int autoClose() {
-        int currentTurnCount = currentTurnCountAtomic.get();
-        for (int i = 0; i <maxTurnCount - currentTurnCount; i++) {
+        if (stopFlag.get()) {
+            stopFlag.set(false);
+        }
+
+        while (currentTurnCountAtomic.get() > 0 && !stopFlag.get()) {
             turnBackward(stepsByOne);
-            currentTurnCountAtomic.decrementAndGet();
-            if(stopFlag.get()){
+            int nextPos = currentTurnCountAtomic.decrementAndGet();
+            log.debug("current pos: {}", nextPos + 1);
+            if (nextPos == -1) {
+                currentTurnCountAtomic.set(maxTurnCount);
                 return 0;
             }
         }
-        return  -1;
+
+        return -1;
     }
 
     public int autoOpen() {
-        int currentTurnCount = currentTurnCountAtomic.get();
-        for (int i = 0; i < maxTurnCount - currentTurnCount; i++) {
+        if (stopFlag.get()) {
+            stopFlag.set(false);
+        }
+        while (currentTurnCountAtomic.get() < maxTurnCount && !stopFlag.get()) {
             turnBackward(stepsByOne);
-            currentTurnCountAtomic.incrementAndGet();
-            if(stopFlag.get()){
-                return 0;
+            int nextPos = currentTurnCountAtomic.incrementAndGet();
+            log.debug("current pos: {}", nextPos - 1);
+            if (nextPos == maxTurnCount) {
+                return 1;
             }
         }
-        return  1;
+        return 0;
     }
 }

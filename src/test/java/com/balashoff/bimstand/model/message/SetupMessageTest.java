@@ -152,8 +152,8 @@ class SetupMessageTest {
         };
         CurtainsConfig curtainsConfig1 = CurtainsConfig
                 .builder()
-                .id("curtain1")
-                .name("curtain1")
+                .id("curtains1")
+                .name("curtains1")
                 .type("curtains")
                 .steps(steps).pins(new int[]{4, 17, 27, 22})
                 .maxTurnCount(10)
@@ -164,8 +164,8 @@ class SetupMessageTest {
 
         CurtainsConfig curtainsConfig2 = CurtainsConfig
                 .builder()
-                .id("curtain2")
-                .name("curtain2")
+                .id("curtains2")
+                .name("curtains2")
                 .type("curtains")
                 .steps(steps).pins(new int[]{18, 23, 24, 25})
                 .maxTurnCount(10)
