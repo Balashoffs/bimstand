@@ -1,6 +1,6 @@
-package com.bablshoff.bimstand.model.curtains;
+package com.bablshoff.bimstand.model.message.curtains;
 
-import com.bablshoff.bimstand.model.IDeviceMessage;
+import com.bablshoff.bimstand.model.message.IDeviceMessage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

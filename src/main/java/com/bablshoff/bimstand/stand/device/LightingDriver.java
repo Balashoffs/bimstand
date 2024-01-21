@@ -1,5 +1,5 @@
 package com.bablshoff.bimstand.stand.device;
-import com.bablshoff.bimstand.model.lighting.LightingStatus;
+import com.bablshoff.bimstand.model.message.lighting.LightingStatus;
 
 import java.util.function.Consumer;
 

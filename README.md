@@ -14,26 +14,35 @@ The provided component classes as part of this library provide an implementation
 table provides an overview of all supported components with a link to their implementation and example app:
 
 
-| **Component**               | **Example App**                                                                                                 | **Implementation**                                                                                                        |
-|-----------------------------|-----------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
-| Button                      | [ButtonApp.java](src/main/java/com/bablshoff/bimstand/applications/ButtonApp.java)                                     | [ButtonComponent.java](src/main/java/com/bablshoff/bimstand/components/ButtonComponent.java)                                     |
-| ButtonMatrix                | [ButtonMatrixApp.java](src/main/java/com/bablshoff/bimstand/applications/ButtonMatrixApp.java)                         | [ButtonMatrixComponent.java](src/main/java/com/bablshoff/bimstand/components/ButtonMatrixComponent.java)                         |
-| Buzzer                      | [BuzzerApp.java](src/main/java/com/bablshoff/bimstand/applications/BuzzerApp.java)                                     | [BuzzerComponent.java](src/main/java/com/bablshoff/bimstand/components/BuzzerComponent.java)                                     |
-| Humidity/Temperature Sensor | [HumiTempApp.java](src/main/java/com/bablshoff/bimstand/applications/HumiTempApp.java)                                 | [HumiTempComponent.java](src/main/java/com/bablshoff/bimstand/components/HumiTempComponent.java)                                 |
-| IR Receiver                 | [IrReceiverApp.java](src/main/java/com/bablshoff/bimstand/applications/IrReceiverApp.java)                             | [IrReceiverComponent.java](src/main/java/com/bablshoff/bimstand/components/IrReceiverComponent.java)                             |
-| LCD Display                 | [LcdDisplayApp.java](src/main/java/com/bablshoff/bimstand/applications/LcdDisplayApp.java)                             | [LCDDisplayComponent.java](src/main/java/com/bablshoff/bimstand/components/LcdDisplayComponent.java)                             |
-| LED Matrix                  | [LedMatrixApp.java](src/main/java/com/bablshoff/bimstand/applications/LedMatrixApp.java)                               | [LedMatrixComponent.java](src/main/java/com/bablshoff/bimstand/components/LedMatrixComponent.java)                               |
-| Light Sensor                | [LightSensorApp.java](src/main/java/com/bablshoff/bimstand/applications/LightSensorApp.java)                           | [LightSensorComponent.java](src/main/java/com/bablshoff/bimstand/components/LightSensorComponent.java)                           |
-| PIR Motion Sensor           | [PirMotionSensorApp.java](src/main/java/com/bablshoff/bimstand/applications/PirMotionSensorApp.java)                   | [PirMotionSensorComponent.java](src/main/java/com/bablshoff/bimstand/components/PirMotionSensorComponent.java)                   |
-| Relay                       | [RelayApp.java](src/main/java/com/bablshoff/bimstand/applications/RelayApp.java)                                       | [RelayComponent.java](src/main/java/com/bablshoff/bimstand/components/RelayComponent.java)                                       |
-| RFID                        | [RfidApp.java](src/main/java/com/bablshoff/bimstand/applications/RfidApp.java)                                         | [RfidComponent.java](src/main/java/com/bablshoff/bimstand/components/RfidComponent.java)                                         |
-| Servo Motor                 | [ServoMotorApp.java](src/main/java/com/bablshoff/bimstand/applications/ServoMotorApp.java)                             | [ServoMotorComponent.java](src/main/java/com/bablshoff/bimstand/components/ServoMotorComponent.java)                             |
-| Seven Segment Display       | [SevenSegmentApp.java](src/main/java/com/bablshoff/bimstand/applications/SevenSegmentApp.java)                         | [SevenSegmentComponent.java](src/main/java/com/bablshoff/bimstand/components/SevenSegmentComponent.java)                         |
-| Step Motor                  | [StepMotorApp.java](src/main/java/com/bablshoff/bimstand/applications/StepMotorApp.java)                               | [StepMotorComponent.java](src/main/java/com/bablshoff/bimstand/components/StepMotorComponent.java)                               |
-| Tilt Sensor                 | [TiltSensorApp.java](src/main/java/com/bablshoff/bimstand/applications/TiltSensorApp.java)                             | [TiltSensorComponent.java](src/main/java/com/bablshoff/bimstand/components/TiltSensorComponent.java)                             |
-| Touch Sensor                | [TouchSensorApp.java](src/main/java/com/bablshoff/bimstand/applications/TouchSensorApp.java)                           | [TouchSensorComponent.java](src/main/java/com/bablshoff/bimstand/components/TouchSensorComponent.java)                           |
-| Ultrasonic Distance Sensor  | [UltrasonicDistanceSensorApp.java](src/main/java/com/bablshoff/bimstand/applications/UltrasonicDistanceSensorApp.java) | [UltrasonicDistanceSensorComponent.java](src/main/java/com/bablshoff/bimstand/components/UltrasonicDistanceSensorComponent.java) |
-| Vibration Motor             | [VibrationMotorApp.java](src/main/java/com/bablshoff/bimstand/applications/VibrationMotorApp.java)                     | [VibrationMotorComponent.java](src/main/java/com/bablshoff/bimstand/components/VibrationMotorComponent.java)                     |
+| **Raspbery pinout** | **Board position** | **Hardware**                    |
+|---------------------|--------------------|---------------------------------|
+| GPIO 4              | 1                  | Драйвер шагового двигателя 1.1  |
+| GPIO 17             | 2                  | Драйвер шагового двигателя 1.2  |
+| GPIO 27             | 3                  | Драйвер шагового двигателя 1.3  |
+| GPIO 22             | 4                  | Драйвер шагового двигателя 1.4  |
+|                     |                    |                                 |
+| GPIO 18             | 5                  | Драйвер шагового двигателя 2.1  |
+| GPIO 23             | 6                  | Драйвер шагового двигателя 2.2  |
+| GPIO 24             | 7                  | Драйвер шагового двигателя 2.3  |
+| GPIO 25             | 8                  | Драйвер шагового двигателя 2.4  |
+|                     |                    |                                 |
+| GPIO 8              | 9                  | опустить шторы вручную 1        |
+| GPIO 7              | 10                 | поднять шторы вручную 1         |
+|                     |                    |                                 |
+| GPIO 5              | 11                 | опустить шторы вручную 2        |
+| GPIO 6              | 12                 | поднять шторы вручную 2         |
+|                     |                    |                                 |
+| GPIO 12             | 13                 | драйвер светильника 1           |
+|                     |                    |                                 |
+| GPIO 13             | 14                 | драйвер светильника 2           |
+|                     | 15                 |                                 |
+| GPIO 19             | 16                 | индикатор работы сервера 1      |
+|                     |                    |                                 |
+| GPIO 26             | 17                 | включить/выключить светильник 1 |
+| GPIO 16             | 18                 | включить/выключить светильник 2 |
+| GPIO 20             | 19                 |                                 |
+| GPIO 21             | 20                 |                                 |
+
 
 Due to very tight timing constraints, two of the components had to use an alternative implementation without relying on Java. This could be
 improved in the future by moving this logic into native code using JNI or putting these components behind a dedicated microcontroller:

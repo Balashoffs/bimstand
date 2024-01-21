@@ -2,10 +2,10 @@ package com.bablshoff.bimstand.stand;
 
 import com.bablshoff.bimstand.events.devices.receive.IDeviceReceiveMessageEvent;
 import com.bablshoff.bimstand.events.devices.send.DeviceSendMessageEventHandler;
-import com.bablshoff.bimstand.model.IDeviceMessage;
-import com.bablshoff.bimstand.model.SetupMessage;
-import com.bablshoff.bimstand.model.curtains.СurtainsMessage;
-import com.bablshoff.bimstand.model.lighting.LightingMessage;
+import com.bablshoff.bimstand.model.message.IDeviceMessage;
+import com.bablshoff.bimstand.model.message.SetupMessage;
+import com.bablshoff.bimstand.model.message.curtains.СurtainsMessage;
+import com.bablshoff.bimstand.model.message.lighting.LightingMessage;
 import com.google.gson.reflect.TypeToken;
 import lombok.extern.log4j.Log4j2;
 
@@ -19,7 +19,7 @@ public class OfficeStandController implements IDeviceReceiveMessageEvent, Runnab
     private final LinkedBlockingQueue<IDeviceMessage> blockingQueue = new LinkedBlockingQueue<>(50);
     private AtomicBoolean isRunning = new AtomicBoolean(false);
     private DeviceSendMessageEventHandler deviceEventHandler;
-    private final OfficeStand ofiiceModel = new OfficeStand(blockingQueue);
+    private final OfficeStand officeStand;
 
     public void addEventHandler(DeviceSendMessageEventHandler handler) {
         deviceEventHandler = handler;
@@ -29,7 +29,14 @@ public class OfficeStandController implements IDeviceReceiveMessageEvent, Runnab
         deviceEventHandler = handler;
     }
 
+    public void consumeMessageFromStandDevice(IDeviceMessage deviceMessage){
+        blockingQueue.add(deviceMessage);
+    }
 
+    public OfficeStandController(OfficeStand officeStand) {
+        this.officeStand = officeStand;
+        this.officeStand.setMessageConsumer(this::consumeMessageFromStandDevice);
+    }
 
     public void start() {
         new Thread(this).start();
@@ -48,24 +55,21 @@ public class OfficeStandController implements IDeviceReceiveMessageEvent, Runnab
         }
     }
 
-    public void onExit(IExit exit) {
-        exit.exit();
-    }
-
 
     @Override
     public <T> void receive(Type messageType, T message) {
         if(messageType instanceof LightingMessage){
             LightingMessage lightingMessage = (LightingMessage) message;
-            ofiiceModel.controlLight(lightingMessage);
+            officeStand.controlLight(lightingMessage);
         }else if(messageType instanceof СurtainsMessage){
             СurtainsMessage curtainsMessage = (СurtainsMessage)message;
-            ofiiceModel.controlСurtains(curtainsMessage);
+            officeStand.controlСurtains(curtainsMessage);
         }else if(messageType instanceof SetupMessage){
             SetupMessage setupMessage = (SetupMessage)message;
-            ofiiceModel.setupDevice(setupMessage);
+            officeStand.setupDevice(setupMessage);
         }else{
             log.warn("Incoming message is not valid: {}", messageType.getTypeName());
         }
     }
+
 }

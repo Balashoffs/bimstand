@@ -3,7 +3,7 @@ package com.bablshoff.bimstand.stand.device;
 import com.bablshoff.bimstand.components.ButtonComponent;
 import com.bablshoff.bimstand.components.StepMotorComponent;
 import com.bablshoff.bimstand.components.definitions.Button;
-import com.bablshoff.bimstand.model.curtains.CurtainsStatus;
+import com.bablshoff.bimstand.model.message.curtains.CurtainsStatus;
 import com.pi4j.context.Context;
 
 
@@ -13,7 +13,7 @@ import java.util.function.BiConsumer;
 
 public class CurtainsDriver implements IDriver {
     private final StepMotorComponent stepMotorComponent;
-    private final Map<Button, ButtonComponent> buttons;
+    private final Map<String, ButtonComponent> buttons;
     private final String id;
     private final int maxStep;
     private final String name;
@@ -29,15 +29,15 @@ public class CurtainsDriver implements IDriver {
         setupButtons(buttons, pi4j);
     }
 
-    private void setupButtons(Map<Button, ButtonComponent> buttons, Context pi4j) {
-        ButtonComponent up = new ButtonComponent(pi4j, Button.UP);
-        buttons.put(Button.UP, up);
-        up.onDown(() -> {});
-        ButtonComponent down = new ButtonComponent(pi4j, Button.UP);
-        down.onDown(() -> {
-
-        });
-        buttons.put(Button.DOWN, down);
+    private void setupButtons(Map<String, ButtonComponent> buttons, Context pi4j) {
+//        ButtonComponent up = new ButtonComponent(pi4j, Button.UP);
+//        buttons.put(Button.UP, up);
+//        up.onDown(() -> {});
+//        ButtonComponent down = new ButtonComponent(pi4j, Button.UP);
+//        down.onDown(() -> {
+//
+//        });
+//        buttons.put(Button.DOWN, down);
 
     }
 

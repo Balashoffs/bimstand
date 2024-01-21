@@ -1,15 +1,13 @@
 package com.bablshoff.bimstand.message;
 
-import com.bablshoff.bimstand.events.devices.receive.IDeviceReceiveMessageEvent;
 import com.bablshoff.bimstand.events.devices.send.DeviceSendMessageEventHandler;
 import com.bablshoff.bimstand.events.devices.send.IDeviceSendMessageEvent;
 import com.bablshoff.bimstand.events.ws.receive.IWSReceiveMessageEvent;
 import com.bablshoff.bimstand.events.ws.send.WSSendMessageEventHandler;
-import com.bablshoff.bimstand.model.IDeviceMessage;
-import com.bablshoff.bimstand.model.LightingMessage;
-import com.bablshoff.bimstand.model.OpcMessage;
-import com.bablshoff.bimstand.model.SetupMessage;
-import com.bablshoff.bimstand.model.curtains.СurtainsMessage;
+import com.bablshoff.bimstand.model.message.LightingMessage;
+import com.bablshoff.bimstand.model.message.OpcMessage;
+import com.bablshoff.bimstand.model.message.SetupMessage;
+import com.bablshoff.bimstand.model.message.curtains.СurtainsMessage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import lombok.extern.log4j.Log4j2;

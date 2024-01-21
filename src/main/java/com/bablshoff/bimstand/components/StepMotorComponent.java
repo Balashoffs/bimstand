@@ -14,7 +14,7 @@ public class StepMotorComponent extends Component {
     /**
      * Default GPIO BCM addresses used as part of the various steps
      */
-    private final static int[] DEFAULT_PINS = {5, 6, 13, 19};
+    private final static int[] DEFAULT_PINS = {4, 17, 27, 22};
     /**
      * Default set of steps which will be executed once in order when turning one step
      *

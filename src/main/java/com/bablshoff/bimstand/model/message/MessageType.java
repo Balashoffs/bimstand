@@ -1,4 +1,4 @@
-package com.bablshoff.bimstand.model;
+package com.bablshoff.bimstand.model.message;
 
 public enum MessageType {
     curtains_cs,

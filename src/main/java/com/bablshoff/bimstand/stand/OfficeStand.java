@@ -1,25 +1,39 @@
 package com.bablshoff.bimstand.stand;
 
 import com.bablshoff.bimstand.components.ButtonComponent;
-import com.bablshoff.bimstand.model.IDeviceMessage;
-import com.bablshoff.bimstand.model.SetupMessage;
-import com.bablshoff.bimstand.model.curtains.CurtainsStatus;
-import com.bablshoff.bimstand.model.curtains.СurtainsMessage;
-import com.bablshoff.bimstand.model.lighting.LightingMessage;
-import com.bablshoff.bimstand.model.lighting.LightingStatus;
+import com.bablshoff.bimstand.model.message.IDeviceMessage;
+import com.bablshoff.bimstand.model.message.SetupMessage;
+import com.bablshoff.bimstand.model.message.curtains.CurtainsStatus;
+import com.bablshoff.bimstand.model.message.curtains.СurtainsMessage;
+import com.bablshoff.bimstand.model.message.lighting.LightingMessage;
+import com.bablshoff.bimstand.model.message.lighting.LightingStatus;
 import com.bablshoff.bimstand.stand.device.CurtainsDriver;
 import com.bablshoff.bimstand.stand.device.LightingDriver;
-import lombok.AllArgsConstructor;
+import com.pi4j.context.Context;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.function.Consumer;
 
-@AllArgsConstructor()
+
 public class OfficeStand {
-    private final LinkedBlockingQueue<IDeviceMessage> blockingQueue;
+
     private final Map<String, CurtainsDriver> curtainsDrivers = new HashMap<>();
     private final Map<String, LightingDriver> lightingDrivers = new HashMap<>();
+
+
+    public OfficeStand(Context context) {
+        this.context = context;
+    }
+
+    public void setMessageConsumer(Consumer<IDeviceMessage> messageConsumer) {
+        this.messageConsumer = messageConsumer;
+
+    }
+
+    private Consumer<IDeviceMessage> messageConsumer;
+    private final Context context;
 
 
     public void controlLight(LightingMessage lightingMessage) {
@@ -35,7 +49,8 @@ public class OfficeStand {
                         .isTurnOn(isTurnOn)
                         .deviceStatus(status)
                         .build();
-                blockingQueue.add(answer);
+                messageConsumer.accept(answer);
+
             });
         }
     }
@@ -54,12 +69,16 @@ public class OfficeStand {
                         .isOpen(isOpen)
                         .value(value)
                         .build();
-                blockingQueue.add(answer);
+                messageConsumer.accept(answer);
             });
         }
     }
 
     public void setupDevice(SetupMessage setupMessage) {
+        String[] deviceType = setupMessage.getDeviceType();
+        Map<String, List<ButtonComponent>> buttons = new HashMap<>();
+        setupMessage.getStandButtonsSet().forEach((type, standButtons) -> {
 
+        });
     }
 }

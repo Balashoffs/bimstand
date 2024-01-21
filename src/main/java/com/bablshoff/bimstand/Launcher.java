@@ -18,26 +18,7 @@ public final class Launcher implements Runnable {
      * Each class instance must implement the Application interface and gets automatically added as a subcommand.
      */
     public static final List<Application> APPLICATIONS = List.of(
-        new ButtonApp(),
-        new ButtonMatrixApp(),
-        new BuzzerApp(),
-        new ExampleApp(),
-        new HumiTempApp(),
-        new IrReceiverApp(),
-        new LcdDisplayApp(),
-        new LedMatrixApp(),
-        new LightSensorApp(),
-        new RfidApp(),
-        new PirMotionSensorApp(),
-        new RelayApp(),
-        new ServoMotorApp(),
-        new SevenSegmentApp(),
-        new SoundSensorApp(),
-        new StepMotorApp(),
-        new TiltSensorApp(),
-        new TouchSensorApp(),
-        new UltrasonicDistanceSensorApp(),
-        new VibrationMotorApp()
+        new BimStandApp()
     );
 
     /**

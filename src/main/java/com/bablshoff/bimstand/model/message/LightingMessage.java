@@ -1,4 +1,4 @@
-package com.bablshoff.bimstand.model;
+package com.bablshoff.bimstand.model.message;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

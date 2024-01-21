@@ -9,8 +9,12 @@ open module com.balashoff.bimstand {
     exports com.bablshoff.bimstand.components.internal.rfid;
     exports com.bablshoff.bimstand.helpers;
     exports com.bablshoff.bimstand.events.ws.send;
-    exports com.bablshoff.bimstand.model;
-    exports com.bablshoff.bimstand.model.curtains;
+    exports com.bablshoff.bimstand.model.message.lighting;
+    exports com.bablshoff.bimstand.model.message.curtains;
+    exports com.bablshoff.bimstand.events.ws.receive;
+    exports com.bablshoff.bimstand.events;
+
+    exports com.bablshoff.bimstand.model.message;
 
 
     // Pi4J Modules

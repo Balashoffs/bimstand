@@ -1,16 +1,16 @@
-package com.bablshoff.bimstand;
+package com.bablshoff.bimstand.applications;
 
-import com.bablshoff.bimstand.stand.OfficeStandController;
 import com.bablshoff.bimstand.events.EventManager;
-
 import com.bablshoff.bimstand.message.MessageManager;
+import com.bablshoff.bimstand.stand.OfficeStand;
+import com.bablshoff.bimstand.stand.OfficeStandController;
 import com.bablshoff.bimstand.ws.StandWebSocketServerEvents;
-import lombok.extern.log4j.Log4j2;
+import com.pi4j.context.Context;
+import com.bablshoff.bimstand.Application;
 
-@Log4j2
-public class Main {
-    public static void main(String[] args) {
-        //TODO Start web socket server
+public class BimStandApp implements Application {
+    @Override
+    public void execute(Context pi4j) {
         EventManager eventManager = EventManager.getInstance();
 
         StandWebSocketServerEvents server = new StandWebSocketServerEvents(12345);
@@ -28,7 +28,8 @@ public class Main {
 
 
         //TODO start PI4J service
-        OfficeStandController officeStandController = new OfficeStandController();
+        OfficeStand officeStand = new OfficeStand(pi4j);
+        OfficeStandController officeStandController = new OfficeStandController(officeStand);
         eventManager.getDeviceReceiveMessageEventHandler().addActionListener(officeStandController);
         officeStandController.addEventHandler(eventManager.getDeviceSendMessageEventHandler());
 //        officeModel.onExit(()->{
@@ -46,7 +47,5 @@ public class Main {
 //        });
 
         officeStandController.start();
-
-
     }
 }
