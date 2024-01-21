@@ -1,30 +1,30 @@
 open module com.balashoff.bimstand {
     // Module Exports
-    exports com.bablshoff.bimstand.components;
-    exports com.bablshoff.bimstand.components.definitions;
-    exports com.bablshoff.bimstand.components.events;
-    exports com.bablshoff.bimstand.components.exceptions;
-    exports com.bablshoff.bimstand.components.helpers;
-    exports com.bablshoff.bimstand.components.internal;
-    exports com.bablshoff.bimstand.components.internal.rfid;
-    exports com.bablshoff.bimstand.helpers;
+    exports com.balashoff.bimstand.components;
+    exports com.balashoff.bimstand.components.definitions;
+    exports com.balashoff.bimstand.components.events;
+    exports com.balashoff.bimstand.components.exceptions;
+    exports com.balashoff.bimstand.components.helpers;
+    exports com.balashoff.bimstand.components.internal;
+    exports com.balashoff.bimstand.components.internal.rfid;
+    exports com.balashoff.bimstand.helpers;
 
 
 
 
-    exports  com.bablshoff.bimstand.ws;
-    exports  com.bablshoff.bimstand.stand;
-    exports  com.bablshoff.bimstand.stand.module;
-    exports  com.bablshoff.bimstand.model.message;
-    exports com.bablshoff.bimstand.model.message.lighting;
-    exports com.bablshoff.bimstand.model.message.curtains;
-    exports  com.bablshoff.bimstand.model.config;
-    exports  com.bablshoff.bimstand.message;
-    exports com.bablshoff.bimstand.events;
-    exports com.bablshoff.bimstand.events.devices.receive;
-    exports com.bablshoff.bimstand.events.devices.send;
-    exports com.bablshoff.bimstand.events.ws.send;
-    exports com.bablshoff.bimstand.events.ws.receive;
+    exports  com.balashoff.bimstand.ws;
+    exports  com.balashoff.bimstand.stand;
+    exports  com.balashoff.bimstand.stand.module;
+    exports  com.balashoff.bimstand.model.message;
+    exports com.balashoff.bimstand.model.message.lighting;
+    exports com.balashoff.bimstand.model.message.curtains;
+    exports  com.balashoff.bimstand.model.config;
+    exports  com.balashoff.bimstand.message;
+    exports com.balashoff.bimstand.events;
+    exports com.balashoff.bimstand.events.devices.receive;
+    exports com.balashoff.bimstand.events.devices.send;
+    exports com.balashoff.bimstand.events.ws.send;
+    exports com.balashoff.bimstand.events.ws.receive;
 
 
     // Pi4J Modules
@@ -47,7 +47,7 @@ open module com.balashoff.bimstand {
     requires java.desktop;
 
     requires org.java_websocket;
-    requires javax.websocket.api;
-    requires lombok;
+
+    requires static lombok;
     requires com.google.gson;
 }

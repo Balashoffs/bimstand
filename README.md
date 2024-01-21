@@ -79,7 +79,7 @@ The Pi4J-team provides several pre-built [custom OS images](https://github.com/P
 ## FRAMEWORK
 
 To simplify adding and launching new applications, a custom launcher has been built using PicoCLI.
-The [Launcher.java](src/main/java/com/bablshoff/bimstand/Launcher.java)
+The [Launcher.java](src/main/java/com/balashoff/bimstand/Launcher.java)
 class contains a static list of available targets called `APPLICATIONS` which has to be adjusted when adding new applications to the project.
 
 By default, an interactive menu gets shown which allows selecting a single target to launch. After executing this target, the application will automatically end. You may optionally specify the name of an application as the first argument, i.e. `BuzzerApp`, to directly launch this specific application.
@@ -87,7 +87,7 @@ By default, an interactive menu gets shown which allows selecting a single targe
 If you want to comfortably test all supported components at once, you may specify the flag `--demo` which will return to the interactive
 launcher menu once a target has been executed.
 
-Creating your own applications is as simple as implementing the provided [Application.java](src/main/java/com/bablshoff/bimstand/Application.java) interface, which only requires a single `void execute(Context pi4j)` method.
+Creating your own applications is as simple as implementing the provided [Application.java](src/main/java/com/balashoff/bimstand/Application.java) interface, which only requires a single `void execute(Context pi4j)` method.
 
 ## BUILD SYSTEM
 
@@ -157,34 +157,34 @@ $ git clone https://github.com/Pi4J/pi4j-example-crowpi.git
 $ cd pi4j-example-crowpi
 $ mvn package
 $ cd target/distribution/
-$ sudo java --module-path . --module com.pi4j.crowpi/com.bablshoff.bimstand.Launcher $@
+$ sudo java --module-path . --module com.pi4j.crowpi/com.balashoff.bimstand.Launcher $@
 
 > No application has been specified, defaulting to interactive selection
 > Run this launcher with --help for further information
 [main] INFO com.pi4j.Pi4J - New context builder
-[main] INFO com.pi4j.platform.impl.DefaultRuntimePlatforms - adding platform to managed platform map [id=raspberrypi; name=RaspberryPi Platform; priority=5; class=helpers.com.bablshoff.bimstand.CrowPiPlatform]
+[main] INFO com.pi4j.platform.impl.DefaultRuntimePlatforms - adding platform to managed platform map [id=raspberrypi; name=RaspberryPi Platform; priority=5; class=helpers.com.balashoff.bimstand.CrowPiPlatform]
 > The following launch targets are available:
 1) Exit launcher without running application
-2) ButtonApp (applications.com.bablshoff.bimstand.ButtonApp)
-3) ButtonMatrixApp (applications.com.bablshoff.bimstand.ButtonMatrixApp)
-4) BuzzerApp (applications.com.bablshoff.bimstand.BuzzerApp)
-5) ExampleApp (applications.com.bablshoff.bimstand.ExampleApp)
-6) HumiTempApp (applications.com.bablshoff.bimstand.HumiTempApp)
-7) IrReceiverApp (applications.com.bablshoff.bimstand.IrReceiverApp)
-8) LcdDisplayApp (applications.com.bablshoff.bimstand.LcdDisplayApp)
-9) LedMatrixApp (applications.com.bablshoff.bimstand.LedMatrixApp)
-10) LightSensorApp (applications.com.bablshoff.bimstand.LightSensorApp)
-11) RfidApp (applications.com.bablshoff.bimstand.RfidApp)
-12) PirMotionSensorApp (applications.com.bablshoff.bimstand.PirMotionSensorApp)
-13) RelayApp (applications.com.bablshoff.bimstand.RelayApp)
-14) ServoMotorApp (applications.com.bablshoff.bimstand.ServoMotorApp)
-15) SevenSegmentApp (applications.com.bablshoff.bimstand.SevenSegmentApp)
-16) SoundSensorApp (applications.com.bablshoff.bimstand.SoundSensorApp)
-17) StepMotorApp (applications.com.bablshoff.bimstand.StepMotorApp)
-18) TiltSensorApp (applications.com.bablshoff.bimstand.TiltSensorApp)
-19) TouchSensorApp (applications.com.bablshoff.bimstand.TouchSensorApp)
-20) UltrasonicDistanceSensorApp (applications.com.bablshoff.bimstand.UltrasonicDistanceSensorApp)
-21) VibrationMotorApp (applications.com.bablshoff.bimstand.VibrationMotorApp)
+2) ButtonApp (applications.com.balashoff.bimstand.ButtonApp)
+3) ButtonMatrixApp (applications.com.balashoff.bimstand.ButtonMatrixApp)
+4) BuzzerApp (applications.com.balashoff.bimstand.BuzzerApp)
+5) ExampleApp (applications.com.balashoff.bimstand.ExampleApp)
+6) HumiTempApp (applications.com.balashoff.bimstand.HumiTempApp)
+7) IrReceiverApp (applications.com.balashoff.bimstand.IrReceiverApp)
+8) LcdDisplayApp (applications.com.balashoff.bimstand.LcdDisplayApp)
+9) LedMatrixApp (applications.com.balashoff.bimstand.LedMatrixApp)
+10) LightSensorApp (applications.com.balashoff.bimstand.LightSensorApp)
+11) RfidApp (applications.com.balashoff.bimstand.RfidApp)
+12) PirMotionSensorApp (applications.com.balashoff.bimstand.PirMotionSensorApp)
+13) RelayApp (applications.com.balashoff.bimstand.RelayApp)
+14) ServoMotorApp (applications.com.balashoff.bimstand.ServoMotorApp)
+15) SevenSegmentApp (applications.com.balashoff.bimstand.SevenSegmentApp)
+16) SoundSensorApp (applications.com.balashoff.bimstand.SoundSensorApp)
+17) StepMotorApp (applications.com.balashoff.bimstand.StepMotorApp)
+18) TiltSensorApp (applications.com.balashoff.bimstand.TiltSensorApp)
+19) TouchSensorApp (applications.com.balashoff.bimstand.TouchSensorApp)
+20) UltrasonicDistanceSensorApp (applications.com.balashoff.bimstand.UltrasonicDistanceSensorApp)
+21) VibrationMotorApp (applications.com.balashoff.bimstand.VibrationMotorApp)
 > Please choose your desired launch target by typing its number:
 ```
 

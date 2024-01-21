@@ -14,7 +14,7 @@
     <!-- BUILD PROPERTIES -->
     <properties>
         <!-- Project Properties -->
-        <launcher.class>com.bablshoff.bimstand/com.bablshoff.bimstand.Launcher</launcher.class>
+        <launcher.class>com.balashoff.bimstand/com.balashoff.bimstand.Launcher</launcher.class>
         <launcher.args></launcher.args>
         <!-- <launcher.args>ButtonApp</launcher.args>  -->
 

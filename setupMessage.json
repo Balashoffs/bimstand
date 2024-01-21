@@ -39,8 +39,8 @@
         ]
       ],
       "pulseTime": 1,
-      "name": "curtains1",
-      "id": "curtains1",
+      "name": "curtain1",
+      "id": "curtain1",
       "maxTurnCount": 10,
       "turnQnt": 50,
       "type": "curtains"
@@ -83,8 +83,8 @@
         ]
       ],
       "pulseTime": 1,
-      "name": "curtains2",
-      "id": "curtains2",
+      "name": "curtain2",
+      "id": "curtain2",
       "maxTurnCount": 10,
       "turnQnt": 50,
       "type": "curtains"
@@ -101,7 +101,7 @@
       "name": "led2",
       "id": "led2",
       "type": "lighting",
-      "pin": 13
+      "pin": 12
     }
   ],
   "standStatusConfig": {
