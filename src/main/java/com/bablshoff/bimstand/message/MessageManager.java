@@ -7,7 +7,7 @@ import com.bablshoff.bimstand.events.ws.send.WSSendMessageEventHandler;
 import com.bablshoff.bimstand.model.message.LightingMessage;
 import com.bablshoff.bimstand.model.message.OpcMessage;
 import com.bablshoff.bimstand.model.message.SetupMessage;
-import com.bablshoff.bimstand.model.message.curtains.СurtainsMessage;
+import com.bablshoff.bimstand.model.message.curtains.CurtainsMessage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import lombok.extern.log4j.Log4j2;
@@ -25,8 +25,8 @@ public class MessageManager implements IWSReceiveMessageEvent, IDeviceSendMessag
         OpcMessage opcMessage = jsonParser.fromJsonC(message, OpcMessage.class);
         switch (opcMessage.getMessageType()) {
             case curtains_cs -> {
-                СurtainsMessage curtainsMessage = jsonParser.fromJsonC(opcMessage.getBody(), СurtainsMessage.class);
-                Type type = TypeToken.getParameterized(СurtainsMessage.class).getType();
+                CurtainsMessage curtainsMessage = jsonParser.fromJsonC(opcMessage.getBody(), CurtainsMessage.class);
+                Type type = TypeToken.getParameterized(CurtainsMessage.class).getType();
                 deviceHandler.send(type, curtainsMessage);
 
             }

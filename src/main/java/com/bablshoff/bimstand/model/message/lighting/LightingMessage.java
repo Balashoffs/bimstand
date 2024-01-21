@@ -10,7 +10,6 @@ import lombok.Getter;
 @Builder
 public class LightingMessage implements IDeviceMessage {
    private final String deviceId;
-   private final boolean isTurnOn;
    private final String deviceName;
    private final LightingStatus deviceStatus;
 }

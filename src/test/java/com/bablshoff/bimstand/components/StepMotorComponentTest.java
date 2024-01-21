@@ -32,7 +32,7 @@ class StepMotorComponentTest extends ComponentTest {
     @Test
     void testInvalidStepData() {
         // when
-        final Executable t = () -> new StepMotorComponent(pi4j, new int[]{1, 2, 3}, new int[][]{{4}}, 1);
+        final Executable t = () -> new StepMotorComponent(pi4j, new int[]{1, 2, 3}, new int[][]{{4}}, 1, 1, 1);
 
         // then
         assertThrows(IllegalArgumentException.class, t);

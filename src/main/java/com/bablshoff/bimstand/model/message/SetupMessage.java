@@ -1,9 +1,9 @@
 package com.bablshoff.bimstand.model.message;
 
-import com.bablshoff.bimstand.model.device.Curtains;
-import com.bablshoff.bimstand.model.device.Lighting;
-import com.bablshoff.bimstand.model.device.StandButton;
-import com.bablshoff.bimstand.model.device.StandStatusLed;
+import com.bablshoff.bimstand.model.config.CurtainsConfig;
+import com.bablshoff.bimstand.model.config.LightingConfig;
+import com.bablshoff.bimstand.model.config.StandButtonConfig;
+import com.bablshoff.bimstand.model.config.StandStatusConfig;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,9 +15,10 @@ import java.util.Map;
 @AllArgsConstructor
 @Builder
 public class SetupMessage implements IDeviceMessage {
-    private final List<Curtains> curtainsSet;
-    private final List<Lighting> lightingSet;
-    private final StandStatusLed standStatusLed;
-    private final Map<String, List<StandButton>> standButtonsSet;
+    private final int setupVersion;
+    private final List<CurtainsConfig> curtainsConfigSet;
+    private final List<LightingConfig> lightingConfigSet;
+    private final StandStatusConfig standStatusConfig;
+    private final Map<String, List<StandButtonConfig>> standButtonsSet;
     private final String[] deviceType;
 }

@@ -8,10 +8,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class СurtainsMessage implements IDeviceMessage {
+public class CurtainsMessage implements IDeviceMessage {
    private final String deviceId;
-   private final boolean isOpen;
    private final int value;
    private final String deviceName;
    private final CurtainsStatus deviceStatus;
+   private final CurtainsAction deviceAction;
 }

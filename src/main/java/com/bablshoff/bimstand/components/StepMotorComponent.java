@@ -6,6 +6,8 @@ import com.pi4j.io.gpio.digital.DigitalOutputConfig;
 import com.pi4j.io.gpio.digital.DigitalState;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Implementation of the CrowPi Step Motor using GPIO with Pi4J
@@ -34,6 +36,8 @@ public class StepMotorComponent extends Component {
      * Default duration in milliseconds when pulsing one step, increasing this value makes the step motor turn slower.
      */
     private static final long DEFAULT_PULSE_MILLISECONDS = 1;
+    private static final int DEFAULT_MAX_TURN_COUNT = 10;
+    private static final int STEPS_BY_ONE = 512;
 
     /**
      * Desired pulse duration in milliseconds when executing a single step
@@ -57,8 +61,12 @@ public class StepMotorComponent extends Component {
      *
      * @param pi4j Pi4J context
      */
+    private final int maxTurnCount;
+    private final int stepsByOne;
+    private final AtomicInteger currentTurnCountAtomic = new AtomicInteger(0);
+    private final AtomicBoolean stopFlag = new AtomicBoolean(false);
     public StepMotorComponent(Context pi4j) {
-        this(pi4j, DEFAULT_PINS, DEFAULT_STEPS, DEFAULT_PULSE_MILLISECONDS);
+        this(pi4j, DEFAULT_PINS, DEFAULT_STEPS, DEFAULT_PULSE_MILLISECONDS, DEFAULT_MAX_TURN_COUNT, STEPS_BY_ONE);
     }
 
     /**
@@ -73,7 +81,9 @@ public class StepMotorComponent extends Component {
      * @param steps             Two-dimensional array containing steps with their associated pins
      * @param pulseMilliseconds Duration in milliseconds for pulses
      */
-    public StepMotorComponent(Context pi4j, int[] addresses, int[][] steps, long pulseMilliseconds) {
+    public StepMotorComponent(Context pi4j, int[] addresses, int[][] steps, long pulseMilliseconds, int maxTurnCount, int stepsByOne) {
+        this.maxTurnCount = maxTurnCount;
+        this.stepsByOne = stepsByOne;
         this.pulseMilliseconds = pulseMilliseconds;
 
         // Initialize digital outputs
@@ -193,5 +203,51 @@ public class StepMotorComponent extends Component {
             .initial(DigitalState.LOW)
             .shutdown(DigitalState.LOW)
             .build();
+    }
+
+    public int manualForward() {
+        int currentTurnCount = currentTurnCountAtomic.get();
+        if(currentTurnCount >= 0 && currentTurnCount < maxTurnCount){
+            stopFlag.set(true);
+            turnForward(stepsByOne);
+           int pos = currentTurnCountAtomic.incrementAndGet();
+            return pos == 1 ? 1 : 0;
+        }
+        return 1;
+    }
+
+    public int manualBackward() {
+        int currentTurnCount = currentTurnCountAtomic.get();
+        if(currentTurnCount > 0 && currentTurnCount < maxTurnCount){
+            stopFlag.set(true);
+            turnBackward(stepsByOne);
+            int pos = currentTurnCountAtomic.decrementAndGet();
+            return pos == 0 ? -1 : 0;
+        }
+        return 0;
+    }
+
+    public int autoClose() {
+        int currentTurnCount = currentTurnCountAtomic.get();
+        for (int i = 0; i < currentTurnCount; i++) {
+            turnBackward(stepsByOne);
+            currentTurnCountAtomic.decrementAndGet();
+            if(stopFlag.get()){
+                return 0;
+            }
+        }
+        return  -1;
+    }
+
+    public int autoOpen() {
+        int currentTurnCount = currentTurnCountAtomic.get();
+        for (int i = 0; i < currentTurnCount; i++) {
+            turnBackward(stepsByOne);
+            currentTurnCountAtomic.decrementAndGet();
+            if(stopFlag.get()){
+                return 0;
+            }
+        }
+        return  1;
     }
 }

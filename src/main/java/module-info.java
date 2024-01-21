@@ -14,11 +14,11 @@ open module com.balashoff.bimstand {
 
     exports  com.bablshoff.bimstand.ws;
     exports  com.bablshoff.bimstand.stand;
-    exports  com.bablshoff.bimstand.stand.device;
+    exports  com.bablshoff.bimstand.stand.module;
     exports  com.bablshoff.bimstand.model.message;
     exports com.bablshoff.bimstand.model.message.lighting;
     exports com.bablshoff.bimstand.model.message.curtains;
-    exports  com.bablshoff.bimstand.model.device;
+    exports  com.bablshoff.bimstand.model.config;
     exports  com.bablshoff.bimstand.message;
     exports com.bablshoff.bimstand.events;
     exports com.bablshoff.bimstand.events.devices.receive;

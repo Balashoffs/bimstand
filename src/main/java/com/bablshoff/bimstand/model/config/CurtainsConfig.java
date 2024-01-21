@@ -1,11 +1,11 @@
-package com.bablshoff.bimstand.model.device;
+package com.bablshoff.bimstand.model.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 @AllArgsConstructor
 @Builder
-public class Curtains {
+public class CurtainsConfig {
     public final int[] pins;
     public final int[][] steps;
     public final long pulseTime;

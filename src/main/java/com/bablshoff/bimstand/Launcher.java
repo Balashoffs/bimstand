@@ -7,6 +7,7 @@ import com.bablshoff.bimstand.applications.*;
 import com.bablshoff.bimstand.helpers.CrowPiPlatform;
 import com.pi4j.context.Context;
 
+import lombok.Getter;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Model.CommandSpec;
@@ -20,13 +21,6 @@ public final class Launcher implements Runnable {
     public static final List<Application> APPLICATIONS = List.of(
         new BimStandApp()
     );
-
-    /**
-     * Demo mode will keep the launcher running forever, allowing the consecutive execution of several applications.
-     * This value gets dynamically set to {@code false} when the user selects to exit the launcher in the interactive menu.
-     */
-    @CommandLine.Option(names = {"-d", "--demo"}, description = "Enable demo mode to run multiple applications consecutively")
-    private boolean demoMode = false;
 
     /**
      * PicoCLI command line instance used for parsing
@@ -86,58 +80,16 @@ public final class Launcher implements Runnable {
         // Build list of targets only once for performance reasons
         final var targets = buildTargets();
 
-        // Print informational header based on current operation mode
-        if (demoMode) {
-            System.out.println("> Launcher was started in demo mode and will not automatically exit");
-        } else {
-            System.out.println("> No application has been specified, defaulting to interactive selection");
-            System.out.println("> Run this launcher with --help for further information");
+        if (pi4j == null) {
+            pi4j = CrowPiPlatform.buildNewContext();
         }
-
-        // Interactively ask the user for a desired target and run it
-        // This loop will either run only once or forever, depending on the state of `demoMode`
-        do {
-            // Re-initialize Pi4J context if needed
-            if (pi4j == null) {
-                pi4j = CrowPiPlatform.buildNewContext();
-            }
-            // Run the application
-            getTargetInteractively(targets).run();
-            // Clean up
-            pi4j.shutdown();
-            pi4j = null;
-        } while (demoMode);
+        // Run the application
+        targets.get(0).run();
+        // Clean up
+        pi4j.shutdown();
+        pi4j = null;
     }
 
-    /**
-     * Presents the passed list of targets to the user as a numbered list and waits until a valid choice via stdin has been made.
-     * If an invalid input occurs, this method will keep retrying until a valid value has been entered.
-     *
-     * @param targets List of targets to present as a choice
-     * @return Selected target by user
-     */
-    private Target getTargetInteractively(List<Target> targets) {
-        // Print numbered list of available targets starting at 1
-        System.out.println("> The following launch targets are available:");
-        for (int i = 0; i < targets.size(); i++) {
-            System.out.println((i + 1) + ") " + targets.get(i).getLabel());
-        }
-
-        // Wait for valid choice of user via stdin
-        final var in = new Scanner(System.in);
-        int choice = 0;
-        while (choice < 1 || choice > targets.size()) {
-            System.out.println("> Please choose your desired launch target by typing its number:");
-            try {
-                choice = in.nextInt();
-            } catch (InputMismatchException ignored) {
-                in.next();
-            }
-        }
-
-        // Return selected choice
-        return targets.get(choice - 1);
-    }
 
     /**
      * Builds a list of launcher targets based on static entries and available application runners
@@ -145,22 +97,20 @@ public final class Launcher implements Runnable {
      * @return List of targets
      */
     private List<Target> buildTargets() {
-        final var targets = new ArrayList<Target>();
 
         // Append target for exiting launcher
         // This can be achieved by ensuring that demo mode is disabled, as the launcher will exit too once the application exits
-        targets.add(new Target("Exit launcher without running application", () -> demoMode = false, true));
+//        targets.add(new Target("Exit launcher without running application", () -> demoMode = false, true));
 
         // Append list of application targets
-        targets.addAll(this.runners.stream()
-            .map(runner -> {
-                final var runnerApp = runner.getApp();
-                final var runnerLabel = runnerApp.getName() + " (" + runnerApp.getDescription() + ")";
-                return new Target(runnerLabel, runner);
-            })
-            .collect(Collectors.toList()));
 
-        return targets;
+        return new ArrayList<Target>(this.runners.stream()
+                .map(runner -> {
+                    final var runnerApp = runner.getApp();
+                    final var runnerLabel = runnerApp.getName() + " (" + runnerApp.getDescription() + ")";
+                    return new Target(runnerLabel, runner);
+                })
+                .toList());
     }
 
     /**
@@ -197,6 +147,7 @@ public final class Launcher implements Runnable {
      * Helper class for representing launcher targets which can be interactively chosen if the user does not specify a single app.
      */
     private static final class Target implements Runnable {
+        @Getter
         private final String label;
         private final Runnable runnable;
         private final boolean isSilent;
@@ -222,9 +173,6 @@ public final class Launcher implements Runnable {
             }
         }
 
-        public String getLabel() {
-            return label;
-        }
     }
 
     /**

@@ -1,9 +1,9 @@
 package com.bablshoff.bimstand.model.message;
 
-import com.bablshoff.bimstand.model.device.Curtains;
-import com.bablshoff.bimstand.model.device.Lighting;
-import com.bablshoff.bimstand.model.device.StandButton;
-import com.bablshoff.bimstand.model.device.StandStatusLed;
+import com.bablshoff.bimstand.model.config.CurtainsConfig;
+import com.bablshoff.bimstand.model.config.LightingConfig;
+import com.bablshoff.bimstand.model.config.StandButtonConfig;
+import com.bablshoff.bimstand.model.config.StandStatusConfig;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 
@@ -22,15 +22,15 @@ class SetupMessageTest {
     @Test
     void generateJsonTest() throws IOException {
 
-        List<Curtains> curtains = fillCurtains();
-        List<Lighting> lightings = fillLightings();
-        Map<String, List<StandButton>> buttons = fillButtons();
-        StandStatusLed standStatusLed = fillStatusLed();
+        List<CurtainsConfig> curtains = fillCurtains();
+        List<LightingConfig> lightingConfigs = fillLightings();
+        Map<String, List<StandButtonConfig>> buttons = fillButtons();
+        StandStatusConfig standStatusConfig = fillStatusLed();
         SetupMessage setupMessage = SetupMessage
                 .builder()
-                .standStatusLed(standStatusLed)
-                .curtainsSet(curtains)
-                .lightingSet(lightings)
+                .standStatusConfig(standStatusConfig)
+                .curtainsConfigSet(curtains)
+                .lightingConfigSet(lightingConfigs)
                 .standButtonsSet(buttons)
                 .deviceType(new String[]{"curtains", "lighting"})
                 .build();
@@ -39,80 +39,92 @@ class SetupMessageTest {
         Files.writeString(Path.of("setupMessage.json"), json);
     }
 
-    private Map<String, List<StandButton>> fillButtons() {
-        Map<String, List<StandButton>> buttons = new HashMap<>() {{
+    private Map<String, List<StandButtonConfig>> fillButtons() {
+        Map<String, List<StandButtonConfig>> buttons = new HashMap<>() {{
             put("curtains", new ArrayList<>());
             put("lighting", new ArrayList<>());
         }};
 
-        StandButton standButtonC1D = StandButton
+        StandButtonConfig standButtonConfigC1D = StandButtonConfig
                 .builder()
                 .id("curtains_1_down")
                 .name("curtains_1_down")
                 .type("down")
+                .moduleType("curtains")
+                .moduleId("curtain1")
                 .pin(8)
                 .debounce(10000)
                 .inverted(true)
                 .build();
-        StandButton standButtonC1U = StandButton
+        StandButtonConfig standButtonConfigC1U = StandButtonConfig
                 .builder()
                 .id("curtains_1_up")
                 .name("curtains_1_up")
                 .type("up")
+                .moduleType("curtains")
+                .moduleId("curtain1")
                 .pin(7)
                 .debounce(10000)
                 .inverted(true)
                 .build();
 
-        StandButton standButtonC2D = StandButton
+        StandButtonConfig standButtonConfigC2D = StandButtonConfig
                 .builder()
                 .id("curtains_2_down")
                 .name("curtains_2_down")
                 .type("down")
+                .moduleType("curtains")
+                .moduleId("curtain2")
                 .pin(5)
                 .debounce(10000)
                 .inverted(true)
                 .build();
-        StandButton standButtonC2U = StandButton
+        StandButtonConfig standButtonConfigC2U = StandButtonConfig
                 .builder()
                 .id("curtains_2_up")
                 .name("curtains_2_up")
+                .moduleType("curtains")
+                .moduleId("curtain2")
                 .type("up")
                 .pin(6)
                 .debounce(10000)
                 .inverted(true)
                 .build();
 
-        buttons.get("curtains").addAll(List.of(standButtonC1D, standButtonC1U, standButtonC2D, standButtonC2U));
+        buttons.get("curtains").addAll(List.of(standButtonConfigC1D, standButtonConfigC1U, standButtonConfigC2D, standButtonConfigC2U));
 
-        StandButton standButtonL1 = StandButton
+        StandButtonConfig standButtonConfigL1 = StandButtonConfig
                 .builder()
                 .id("led_1")
                 .name("led_1")
                 .type("switch")
+                .moduleType("lighting")
+                .moduleId("led1")
                 .pin(26)
                 .debounce(10000)
                 .inverted(true)
                 .build();
-        StandButton standButtonL2 = StandButton
+        StandButtonConfig standButtonConfigL2 = StandButtonConfig
                 .builder()
                 .id("led_2")
                 .name("led_2")
                 .type("switch")
+                .moduleType("lighting")
+                .moduleId("led2")
                 .pin(16)
                 .debounce(10000)
                 .inverted(true)
                 .build();
 
 
-        buttons.get("lighting").addAll(List.of(standButtonL1, standButtonL2));
+        buttons.get("lighting").addAll(List.of(standButtonConfigL1, standButtonConfigL2));
 
 
         return buttons;
     }
 
-    private StandStatusLed fillStatusLed() {
-        return StandStatusLed
+    private StandStatusConfig fillStatusLed() {
+        return StandStatusConfig
                 .builder()
                 .pin(19)
                 .id("status")
@@ -120,7 +132,7 @@ class SetupMessageTest {
                 .build();
     }
 
-    private List<Curtains> fillCurtains() {
+    private List<CurtainsConfig> fillCurtains() {
         int[][] steps = new int[][]{
                 {3, 0},
                 {0},
@@ -131,7 +143,7 @@ class SetupMessageTest {
                 {3, 2},
                 {3},
         };
-        Curtains curtains1 = Curtains
+        CurtainsConfig curtainsConfig1 = CurtainsConfig
                 .builder()
                 .id("curtain1")
                 .name("curtain1")
@@ -143,7 +155,7 @@ class SetupMessageTest {
                 .maxTurnCount(10)
                 .build();
 
-        Curtains curtains2 = Curtains
+        CurtainsConfig curtainsConfig2 = CurtainsConfig
                 .builder()
                 .id("curtain2")
                 .name("curtain2")
@@ -154,13 +166,13 @@ class SetupMessageTest {
                 .turnQnt(50)
                 .maxTurnCount(10)
                 .build();
-        return List.of(curtains1, curtains2);
+        return List.of(curtainsConfig1, curtainsConfig2);
     }
 
-    public List<Lighting> fillLightings() {
-        Lighting lighting1 = Lighting.builder().id("led1").name("led1").type("lighting").pin(12).build();
-        Lighting lighting2 = Lighting.builder().id("led2").name("led2").type("lighting").pin(12).build();
+    public List<LightingConfig> fillLightings() {
+        LightingConfig lightingConfig1 = LightingConfig.builder().id("led1").name("led1").type("lighting").pin(12).build();
+        LightingConfig lightingConfig2 = LightingConfig.builder().id("led2").name("led2").type("lighting").pin(12).build();
 
-        return List.of(lighting1, lighting2);
+        return List.of(lightingConfig1, lightingConfig2);
     }
 }

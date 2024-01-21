@@ -1,5 +1,5 @@
 {
-  "curtainsSet": [
+  "curtainsConfigSet": [
     {
       "pins": [
         4,
@@ -89,7 +89,7 @@
       "type": "curtains"
     }
   ],
-  "lightingSet": [
+  "lightingConfigSet": [
     {
       "name": "led1",
       "id": "led1",
@@ -103,7 +103,7 @@
       "pin": 12
     }
   ],
-  "standStatusLed": {
+  "standStatusConfig": {
     "id": "status",
     "name": "status",
     "pin": 19
@@ -113,6 +113,8 @@
       {
         "id": "curtains_1_down",
         "name": "curtains_1_down",
+        "moduleType": "curtains",
+        "moduleId": "curtain1",
         "type": "down",
         "pin": 8,
         "inverted": true,
@@ -121,6 +123,8 @@
       {
         "id": "curtains_1_up",
         "name": "curtains_1_up",
+        "moduleType": "curtains",
+        "moduleId": "curtain1",
         "type": "up",
         "pin": 7,
         "inverted": true,
@@ -129,6 +133,8 @@
       {
         "id": "curtains_2_down",
         "name": "curtains_2_down",
+        "moduleType": "curtains",
+        "moduleId": "curtain2",
         "type": "down",
         "pin": 5,
         "inverted": true,
@@ -137,6 +143,8 @@
       {
         "id": "curtains_2_up",
         "name": "curtains_2_up",
+        "moduleType": "curtains",
+        "moduleId": "curtain2",
         "type": "up",
         "pin": 6,
         "inverted": true,
@@ -147,6 +155,8 @@
       {
         "id": "led_1",
         "name": "led_1",
+        "moduleType": "lighting",
+        "moduleId": "led1",
         "type": "switch",
         "pin": 26,
         "inverted": true,
@@ -155,6 +165,8 @@
       {
         "id": "led_2",
         "name": "led_2",
+        "moduleType": "lighting",
+        "moduleId": "led2",
         "type": "switch",
         "pin": 16,
         "inverted": true,
