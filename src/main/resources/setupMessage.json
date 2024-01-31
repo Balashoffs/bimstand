@@ -145,7 +145,7 @@
         "id": "curtains_2_up",
         "name": "curtains_2_up",
         "moduleType": "curtains",
-        "moduleId": "curtain2",
+        "moduleId": "curtains2",
         "type": "up",
         "pin": 6,
         "inverted": true,

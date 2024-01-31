@@ -137,7 +137,7 @@
         "moduleType": "curtains",
         "moduleId": "curtain2",
         "type": "down",
-        "pin": 5,
+        "pin": 6,
         "inverted": true,
         "debounce": 10000
       },
@@ -147,7 +147,7 @@
         "moduleType": "curtains",
         "moduleId": "curtain2",
         "type": "up",
-        "pin": 6,
+        "pin": 5,
         "inverted": true,
         "debounce": 10000
       }

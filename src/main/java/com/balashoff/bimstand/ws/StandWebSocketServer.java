@@ -31,6 +31,7 @@ public class StandWebSocketServer extends WebSocketServer {
     @Override
     public void onClose(WebSocket webSocket, int i, String s, boolean b) {
         log.debug("i: {}, s: {}, b: {}, socket: {}", i, s, b, webSocket.getRemoteSocketAddress());
+        webSocket.close();
         clientHandshakeAR.clear();
     }
 
@@ -43,6 +44,7 @@ public class StandWebSocketServer extends WebSocketServer {
     public void onError(WebSocket webSocket, Exception e) {
         log.error(e.getMessage());
         log.error(e.fillInStackTrace());
+        webSocket.close();
         log.warn("Server catch error!");
     }
 

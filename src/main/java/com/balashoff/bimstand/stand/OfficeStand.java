@@ -84,6 +84,8 @@ public class OfficeStand {
         ledStatus = new BoardLedStatusComponent(context, setupMessage.getStandStatusConfig());
         ledStatus.turnOn();
 
+
+
         Map<String, Boolean> deviceType = Arrays.stream(setupMessage.getDeviceType()).collect(Collectors.toMap(o -> o, o -> false));
         Map<String, List<StandButton>> buttons = new HashMap<>();
         setupMessage.getStandButtonsSet().forEach((type, standButtons) -> {
@@ -91,6 +93,7 @@ public class OfficeStand {
                 String dt = deviceType.keySet().stream().filter(s -> s.equals(standButton.getModuleType())).findFirst().orElse("");
                 log.debug("Device type: {}", dt);
                 StandButton buttonComponent = new StandButton(context, standButton);
+                log.debug(buttonComponent);
                 buttons.putIfAbsent(dt, new ArrayList<>());
                 buttons.get(dt).add(buttonComponent);
             });

@@ -49,14 +49,12 @@ public class OfficeStandController implements IDeviceReceiveMessageEvent, Runnab
         String[] chunks = messageType.getTypeName().split("\\.");
         String className = chunks[chunks.length -1];
         log.debug("class name incoming message: {}", className);
-        if (className.equals("LightingMessage")) {
-            LightingMessage lightingMessage = (LightingMessage) message;
+//        if (className.equals("LightingMessage")) {
+        if (message instanceof LightingMessage lightingMessage) {
             officeStand.controlLight(lightingMessage);
-        } else if (className.equals("CurtainsMessage") ) {
-            CurtainsMessage curtainsMessage = (CurtainsMessage) message;
+        } else if (message instanceof CurtainsMessage curtainsMessage) {
             officeStand.controlCurtains(curtainsMessage);
-        } else if (className.equals("SetupMessage")) {
-            SetupMessage setupMessage = (SetupMessage) message;
+        } else if (message instanceof SetupMessage setupMessage) {
             officeStand.setupDevice(setupMessage, this::consumeMessageFromStandDevice);
         } else {
             log.warn("Incoming message is not valid: {}", messageType.getTypeName());

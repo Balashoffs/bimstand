@@ -1,1 +1,4 @@
-{"messageType":"curtains_cs","body":"{\"deviceId\":\"led1\",\"value\":0,\"deviceName\":\"led1\",\"deviceStatus\":\"closed\",\"deviceAction\":\"open\"}"}
+{
+  "messageType": "curtains_cs",
+  "body": "{\"deviceId\":\"led1\",\"value\":0,\"deviceName\":\"led1\",\"deviceStatus\":\"closed\",\"deviceAction\":\"open\"}"
+}

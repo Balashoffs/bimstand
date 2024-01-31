@@ -270,7 +270,7 @@ public class StepMotorComponent extends Component {
             stopFlag.set(false);
         }
         while (currentTurnCountAtomic.get() < maxTurnCount && !stopFlag.get()) {
-            turnBackward(stepsByOne);
+            turnForward(stepsByOne);
             int nextPos = currentTurnCountAtomic.incrementAndGet();
             log.debug("current pos: {}", nextPos - 1);
             if (nextPos == maxTurnCount) {
