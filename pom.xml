@@ -23,14 +23,14 @@
         <crowpi.ipnumber>${crowpi.hostname}.local
         </crowpi.ipnumber>  <!-- change to concrete ip-number if hostname is not unique in wlan -->
         <crowpi.port>22</crowpi.port>
-        <crowpi.username>pi</crowpi.username>
-        <crowpi.password>pi4j</crowpi.password>
-        <crowpi.deploydirectory>/home/pi/deploy</crowpi.deploydirectory>
+        <crowpi.username>mib</crowpi.username>
+        <crowpi.password>123</crowpi.password>
+        <crowpi.deploydirectory>/home/mib/deploy</crowpi.deploydirectory>
         <crowpi.jvmOptions/>
 
         <!-- Project Dependencies -->
         <java.version>17</java.version>
-        <pi4j.version>2.3.0-SNAPSHOT</pi4j.version>
+        <pi4j.version>2.4.0</pi4j.version>
         <picocli.version>4.7.4</picocli.version>
         <junit.version>5.10.0</junit.version>
         <lombok.version>1.18.30</lombok.version>

@@ -1,5 +1,5 @@
 {
-  "setupVersion": 0,
+  "setupVersion": 1,
   "curtainsConfigSet": [
     {
       "pins": [
@@ -41,8 +41,8 @@
       "pulseTime": 1,
       "name": "curtains1",
       "id": "curtains1",
-      "maxTurnCount": 10,
-      "turnQnt": 50,
+      "maxTurnCount": 20,
+      "turnQnt":512,
       "type": "curtains"
     },
     {
@@ -85,8 +85,8 @@
       "pulseTime": 1,
       "name": "curtains2",
       "id": "curtains2",
-      "maxTurnCount": 10,
-      "turnQnt": 50,
+      "maxTurnCount": 20,
+      "turnQnt": 100,
       "type": "curtains"
     }
   ],
@@ -173,10 +173,23 @@
         "inverted": true,
         "debounce": 10000
       }
+    ],
+    "reset": [
+      {
+        "id": "reset_1",
+        "name": "reset_1",
+        "moduleType": "reset",
+        "moduleId": "reset1",
+        "type": "switch",
+        "pin": 20,
+        "inverted": true,
+        "debounce": 10000
+      }
     ]
   },
   "deviceType": [
     "curtains",
-    "lighting"
+    "lighting",
+    "reset"
   ]
 }

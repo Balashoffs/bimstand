@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 @Log4j2
 public class StepMotorController implements Runnable {
     private final StepMotorComponent stepMotorComponent;
-    private final BlockingQueue<CurtainsAction> queueOfStatus = new ArrayBlockingQueue<>(10);
+    private final BlockingQueue<CurtainsAction> queueOfStatus = new ArrayBlockingQueue<>(100);
     private Consumer<CurtainsStatus> consumeStatus;
 
 
@@ -27,9 +27,8 @@ public class StepMotorController implements Runnable {
     public void run() {
         do {
             try {
-
                 CurtainsAction action = queueOfStatus.take();
-                log.debug(action);
+                log.debug("--->Incoming action: {}", action);
                 CurtainsStatus statusAfterAction = makeAction(action);
                 if(!statusAfterAction.equals(CurtainsStatus.undef)){
                     consumeStatus.accept(statusAfterAction);
@@ -74,6 +73,7 @@ public class StepMotorController implements Runnable {
                 afterAction = pos == 1 ? CurtainsStatus.opened : CurtainsStatus.slightly_open;
             }
         }
+        log.debug("<--Output message: {}", afterAction);
         return afterAction;
     }
 

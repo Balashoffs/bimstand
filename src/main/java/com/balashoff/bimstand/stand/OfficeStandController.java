@@ -46,10 +46,9 @@ public class OfficeStandController implements IDeviceReceiveMessageEvent, Runnab
 
     @Override
     public <T> void receive(Type messageType, T message) {
-        String[] chunks = messageType.getTypeName().split("\\.");
-        String className = chunks[chunks.length -1];
-        log.debug("class name incoming message: {}", className);
-//        if (className.equals("LightingMessage")) {
+//        String[] chunks = messageType.getTypeName().split("\\.");
+//        String className = chunks[chunks.length -1];
+//        log.debug("class name incoming message: {}", className);
         if (message instanceof LightingMessage lightingMessage) {
             officeStand.controlLight(lightingMessage);
         } else if (message instanceof CurtainsMessage curtainsMessage) {

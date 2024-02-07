@@ -211,16 +211,10 @@ public class StepMotorComponent extends Component {
 
     public int manualForward() {
         int currentTurnCount = currentTurnCountAtomic.get();
-        if (currentTurnCount >= 0 && currentTurnCount < maxTurnCount) {
-            if (!stopFlag.get()) {
-                stopFlag.set(true);
-                return 0;
-            }
+        if (currentTurnCount < maxTurnCount) {
             turnForward(stepsByOne);
             int pos = currentTurnCountAtomic.incrementAndGet();
             if(pos == maxTurnCount){
-                currentTurnCountAtomic.set(maxTurnCount);
-                stopFlag.set(false);
                 return 1;
             }
             return 0;
@@ -230,16 +224,10 @@ public class StepMotorComponent extends Component {
 
     public int manualBackward() {
         int currentTurnCount = currentTurnCountAtomic.get();
-        if (currentTurnCount > 0 && currentTurnCount < maxTurnCount) {
-            if (!stopFlag.get()) {
-                stopFlag.set(true);
-                return 0;
-            }
+        if (currentTurnCount > 0) {
             turnBackward(stepsByOne);
-            int pos = currentTurnCountAtomic.decrementAndGet();
+            int pos = currentTurnCountAtomic.get() - 1;
             if(pos == -1){
-                currentTurnCountAtomic.set(0);
-                stopFlag.set(false);
                 return -1;
             }
             return 0;
@@ -248,16 +236,11 @@ public class StepMotorComponent extends Component {
     }
 
     public int autoClose() {
-        if (stopFlag.get()) {
-            stopFlag.set(false);
-        }
-
-        while (currentTurnCountAtomic.get() > 0 && !stopFlag.get()) {
+        while (currentTurnCountAtomic.get() > 0) {
             turnBackward(stepsByOne);
             int nextPos = currentTurnCountAtomic.decrementAndGet();
             log.debug("current pos: {}", nextPos + 1);
             if (nextPos == -1) {
-                currentTurnCountAtomic.set(maxTurnCount);
                 return 0;
             }
         }
@@ -266,10 +249,7 @@ public class StepMotorComponent extends Component {
     }
 
     public int autoOpen() {
-        if (stopFlag.get()) {
-            stopFlag.set(false);
-        }
-        while (currentTurnCountAtomic.get() < maxTurnCount && !stopFlag.get()) {
+        while (currentTurnCountAtomic.get() < maxTurnCount) {
             turnForward(stepsByOne);
             int nextPos = currentTurnCountAtomic.incrementAndGet();
             log.debug("current pos: {}", nextPos - 1);

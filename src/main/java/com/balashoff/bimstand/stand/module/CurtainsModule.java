@@ -33,19 +33,25 @@ public class CurtainsModule implements IDriver {
     private final StepMotorController stepMotorController;
 
 
-
     public CurtainsModule(Context pi4j, CurtainsConfig curtainsConfig, List<StandButton> buttons) {
         this.id = curtainsConfig.id;
         this.name = curtainsConfig.name;
         this.type = curtainsConfig.type;
-        StepMotorComponent stepMotorComponent = new StepMotorComponent(pi4j, curtainsConfig.pins, curtainsConfig.steps, curtainsConfig.pulseTime, curtainsConfig.maxTurnCount, curtainsConfig.turnQnt);
+        StepMotorComponent stepMotorComponent = new StepMotorComponent(
+                pi4j,
+                curtainsConfig.pins,
+                curtainsConfig.steps,
+                curtainsConfig.pulseTime,
+                curtainsConfig.maxTurnCount,
+                curtainsConfig.turnQnt
+        );
         stepMotorController = new StepMotorController(stepMotorComponent);
         stepMotorController.addControllerHandler(this::getUpdatedCurtainsStatus);
         setupButtons(buttons);
         new Thread(stepMotorController).start();
     }
 
-    private void getUpdatedCurtainsStatus(CurtainsStatus status){
+    private void getUpdatedCurtainsStatus(CurtainsStatus status) {
         CurtainsMessage curtainsMessage = CurtainsMessage
                 .builder()
                 .deviceId(id)
@@ -58,12 +64,12 @@ public class CurtainsModule implements IDriver {
     private void setupButtons(List<StandButton> buttons) {
         for (StandButton button : buttons) {
             log.debug(button.getName());
-            if(button.getType().equals("up")){
+            if (button.getType().equals("up")) {
                 button.onDown(() -> {
                     log.debug(button.getType());
                     stepMotorController.addAction(CurtainsAction.forward);
                 });
-            }else if(button.getType().equals("down")){
+            } else if (button.getType().equals("down")) {
                 button.onDown(() -> {
                     log.debug(button.getType());
                     stepMotorController.addAction(CurtainsAction.backward);
@@ -74,6 +80,7 @@ public class CurtainsModule implements IDriver {
         }
 
     }
+
     public void control(CurtainsAction action) {
         stepMotorController.addAction(action);
     }

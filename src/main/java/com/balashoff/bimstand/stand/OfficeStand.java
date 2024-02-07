@@ -2,8 +2,10 @@ package com.balashoff.bimstand.stand;
 
 import com.balashoff.bimstand.model.message.IDeviceMessage;
 import com.balashoff.bimstand.model.message.SetupMessage;
+import com.balashoff.bimstand.model.message.curtains.CurtainsAction;
 import com.balashoff.bimstand.model.message.curtains.CurtainsMessage;
 import com.balashoff.bimstand.model.message.lighting.LightingMessage;
+import com.balashoff.bimstand.model.message.lighting.LightingStatus;
 import com.balashoff.bimstand.stand.component.BoardLedStatusComponent;
 import com.balashoff.bimstand.stand.module.CurtainsModule;
 import com.balashoff.bimstand.stand.module.LightingModule;
@@ -25,8 +27,9 @@ public class OfficeStand {
     private final Map<String, CurtainsModule> curtainsDrivers = new HashMap<>();
     private final Map<String, LightingModule> lightingDrivers = new HashMap<>();
     private BoardLedStatusComponent ledStatus;
+    private StandButton resetStandButton;
 
-    private int setupVersion = 0;
+    private final int setupVersion = 1;
 
     public OfficeStand(Context context) {
         this.context = context;
@@ -62,10 +65,9 @@ public class OfficeStand {
     public void setupDevice(SetupMessage setupMessage, Consumer<IDeviceMessage> messageConsumer) {
         if (setupMessage.getSetupVersion() == setupVersion) {
             messageConsumer.accept(SetupMessage.builder().build());
-        }else{
+        } else {
             curtainsDrivers.clear();
             lightingDrivers.clear();
-            setupVersion = setupMessage.getSetupVersion();
             ledStatus.turnOff();
         }
 
@@ -75,7 +77,7 @@ public class OfficeStand {
         String prt = json.substring(0, 100);
         log.warn(prt);
         Gson gson = new GsonBuilder().serializeNulls().create();
-        SetupMessage setupMessage =  gson.fromJson(json, SetupMessage.class);
+        SetupMessage setupMessage = gson.fromJson(json, SetupMessage.class);
         setupDevices(setupMessage, messageConsumer);
         log.debug(setupMessage);
     }
@@ -83,7 +85,6 @@ public class OfficeStand {
     private void setupDevices(SetupMessage setupMessage, Consumer<IDeviceMessage> messageConsumer) {
         ledStatus = new BoardLedStatusComponent(context, setupMessage.getStandStatusConfig());
         ledStatus.turnOn();
-
 
 
         Map<String, Boolean> deviceType = Arrays.stream(setupMessage.getDeviceType()).collect(Collectors.toMap(o -> o, o -> false));
@@ -100,39 +101,35 @@ public class OfficeStand {
         });
 
         if (!buttons.isEmpty()) {
-            curtainsDrivers
-                    .putAll(setupMessage
-                            .getCurtainsConfigSet()
-                            .stream()
-                            .map(curtains -> {
-                                List<StandButton> standButtons = buttons
-                                        .get(curtains.type)
-                                        .stream()
-                                        .filter(standButton -> standButton.getModuleId().equals(curtains.id))
-                                        .toList();
-                                CurtainsModule module = new CurtainsModule(context, curtains, standButtons);
-                                module.setCallback(messageConsumer);
-                                return module;
-                            })
-                            .collect(Collectors.toMap(CurtainsModule::getId, curtainsModule -> curtainsModule)));
+            curtainsDrivers.putAll(setupMessage.getCurtainsConfigSet().stream().map(curtains -> {
+                List<StandButton> standButtons = buttons.get(curtains.type).stream().filter(standButton -> standButton.getModuleId().equals(curtains.id)).toList();
+                CurtainsModule module = new CurtainsModule(context, curtains, standButtons);
+                module.setCallback(messageConsumer);
+                return module;
+            }).collect(Collectors.toMap(CurtainsModule::getId, curtainsModule -> curtainsModule)));
 
-            lightingDrivers
-                    .putAll(setupMessage
-                            .getLightingConfigSet()
-                            .stream()
-                            .map(lighting -> {
-                                List<StandButton> standButtons = buttons
-                                        .get(lighting.getType())
-                                        .stream()
-                                        .filter(standButton -> standButton.getModuleId().equals(lighting.getId()))
-                                        .toList();
-                                LightingModule module = new LightingModule(context, lighting, standButtons);
-                                module.setCallback(messageConsumer);
-                                return module;
-                            })
-                            .collect(Collectors.toMap(LightingModule::getId, lightingModule -> lightingModule)));
+            lightingDrivers.putAll(setupMessage.getLightingConfigSet().stream().map(lighting -> {
+                List<StandButton> standButtons = buttons.get(lighting.getType()).stream().filter(standButton -> standButton.getModuleId().equals(lighting.getId())).toList();
+                LightingModule module = new LightingModule(context, lighting, standButtons);
+                module.setCallback(messageConsumer);
+                return module;
+            }).collect(Collectors.toMap(LightingModule::getId, lightingModule -> lightingModule)));
+
+            if (buttons.containsKey("reset")) {
+                resetStandButton = buttons.get("reset").get(0);
+                resetStandButton.onDown(() -> {
+                    curtainsDrivers.values().forEach(s -> {
+                        CurtainsMessage message = CurtainsMessage.builder().deviceId(s.getId()).deviceName(s.getName()).deviceAction(CurtainsAction.close).build();
+                        controlCurtains(message);
+                    });
+                    lightingDrivers.values().forEach(s -> {
+                        LightingMessage message = LightingMessage.builder().deviceId(s.getId()).deviceName(s.getName()).deviceStatus(LightingStatus.off).build();
+                        controlLight(message);
+                    });
+                });
+            }
         }
 
-        messageConsumer.accept(SetupMessage.builder().build());
+
     }
 }
