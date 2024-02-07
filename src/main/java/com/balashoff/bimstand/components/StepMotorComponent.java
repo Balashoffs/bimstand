@@ -66,7 +66,7 @@ public class StepMotorComponent extends Component {
      */
     private final int maxTurnCount;
     private final int stepsByOne;
-    private final AtomicInteger currentTurnCountAtomic = new AtomicInteger(0);
+    private final AtomicInteger currentTurnCountAtomic = new AtomicInteger(-1);
     private final AtomicBoolean stopFlag = new AtomicBoolean(false);
 
     public StepMotorComponent(Context pi4j) {
@@ -226,7 +226,7 @@ public class StepMotorComponent extends Component {
         int currentTurnCount = currentTurnCountAtomic.get();
         if (currentTurnCount > 0) {
             turnBackward(stepsByOne);
-            int pos = currentTurnCountAtomic.get() - 1;
+            int pos = currentTurnCountAtomic.decrementAndGet();
             if(pos == -1){
                 return -1;
             }
