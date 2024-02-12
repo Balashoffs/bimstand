@@ -66,7 +66,7 @@ public class StepMotorComponent extends Component {
      */
     private final int maxTurnCount;
     private final int stepsByOne;
-    private final AtomicInteger currentTurnCountAtomic = new AtomicInteger(-1);
+    private final AtomicInteger currentTurnCountAtomic = new AtomicInteger(0);
     private final AtomicBoolean stopFlag = new AtomicBoolean(false);
 
     public StepMotorComponent(Context pi4j) {
@@ -210,11 +210,11 @@ public class StepMotorComponent extends Component {
     }
 
     public int manualForward() {
+        turnForward(stepsByOne);
         int currentTurnCount = currentTurnCountAtomic.get();
         if (currentTurnCount < maxTurnCount) {
-            turnForward(stepsByOne);
             int pos = currentTurnCountAtomic.incrementAndGet();
-            if(pos == maxTurnCount){
+            if (pos == maxTurnCount) {
                 return 1;
             }
             return 0;
@@ -223,11 +223,11 @@ public class StepMotorComponent extends Component {
     }
 
     public int manualBackward() {
+        turnBackward(stepsByOne);
         int currentTurnCount = currentTurnCountAtomic.get();
-        if (currentTurnCount > 0) {
-            turnBackward(stepsByOne);
+        if (currentTurnCount >= 0) {
             int pos = currentTurnCountAtomic.decrementAndGet();
-            if(pos == -1){
+            if (pos == -1) {
                 return -1;
             }
             return 0;
@@ -236,15 +236,16 @@ public class StepMotorComponent extends Component {
     }
 
     public int autoClose() {
-        while (currentTurnCountAtomic.get() > 0) {
+        while (currentTurnCountAtomic.get() > -1) {
             turnBackward(stepsByOne);
             int nextPos = currentTurnCountAtomic.decrementAndGet();
-            log.debug("current pos: {}", nextPos + 1);
-            if (nextPos == -1) {
+            log.debug("current pos: {}", nextPos);
+            if (nextPos == 0) {
+                currentTurnCountAtomic.set(0);
                 return 0;
             }
         }
-
+        currentTurnCountAtomic.set(0);
         return -1;
     }
 
@@ -252,11 +253,14 @@ public class StepMotorComponent extends Component {
         while (currentTurnCountAtomic.get() < maxTurnCount) {
             turnForward(stepsByOne);
             int nextPos = currentTurnCountAtomic.incrementAndGet();
-            log.debug("current pos: {}", nextPos - 1);
+            log.debug("current pos: {}", nextPos);
             if (nextPos == maxTurnCount) {
+                currentTurnCountAtomic.set(maxTurnCount);
                 return 1;
             }
+
         }
+        currentTurnCountAtomic.set(maxTurnCount);
         return 0;
     }
 }

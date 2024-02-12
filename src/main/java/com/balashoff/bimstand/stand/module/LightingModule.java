@@ -42,9 +42,10 @@ public class LightingModule implements IDriver {
     }
 
     private void switchLight() {
-        log.debug("switchLight");
         boolean isState = relayComponent.toggleState();
+        switchState = isState;
         IDeviceMessage message = buildMessage(isState);
+        log.debug("switchLight: {}", switchState);
         messageConsumer.accept(message);
     }
 
@@ -53,8 +54,16 @@ public class LightingModule implements IDriver {
         return LightingMessage.builder().deviceId(id).deviceName(name).deviceStatus(status).build();
     }
 
-    public void control() {
-        switchLight();
+    private boolean switchState = false;
+
+    public void control(LightingStatus deviceStatus) {
+        if (deviceStatus == LightingStatus.reset) {
+            if(switchState){
+                switchLight();
+            }
+        } else {
+            switchLight();
+        }
     }
 
     @Override

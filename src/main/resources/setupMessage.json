@@ -3,10 +3,10 @@
   "curtainsConfigSet": [
     {
       "pins": [
-        4,
-        17,
+        22,
         27,
-        22
+        17,
+        4
       ],
       "steps": [
         [
@@ -41,8 +41,8 @@
       "pulseTime": 1,
       "name": "curtains1",
       "id": "curtains1",
-      "maxTurnCount": 20,
-      "turnQnt":512,
+      "maxTurnCount": 8,
+      "turnQnt": 256,
       "type": "curtains"
     },
     {
@@ -85,8 +85,8 @@
       "pulseTime": 1,
       "name": "curtains2",
       "id": "curtains2",
-      "maxTurnCount": 20,
-      "turnQnt": 100,
+      "maxTurnCount": 8,
+      "turnQnt": 256,
       "type": "curtains"
     }
   ],

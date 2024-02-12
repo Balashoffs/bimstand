@@ -19,8 +19,8 @@
         <!-- <launcher.args>ButtonApp</launcher.args>  -->
 
         <!-- CrowPi Setup -->
-        <crowpi.hostname>bim</crowpi.hostname>
-        <crowpi.ipnumber>${crowpi.hostname}.local
+        <crowpi.hostname>10.3.141.1</crowpi.hostname>
+        <crowpi.ipnumber>${crowpi.hostname}
         </crowpi.ipnumber>  <!-- change to concrete ip-number if hostname is not unique in wlan -->
         <crowpi.port>22</crowpi.port>
         <crowpi.username>mib</crowpi.username>

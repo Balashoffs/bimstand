@@ -46,7 +46,7 @@ public class OfficeStand {
         final String id = lightingMessage.getDeviceId();
         if (lightingDrivers.containsKey(id)) {
             LightingModule lightingModule = lightingDrivers.get(id);
-            lightingModule.control();
+            lightingModule.control(lightingMessage.getDeviceStatus());
         }
     }
 
@@ -123,7 +123,7 @@ public class OfficeStand {
                         controlCurtains(message);
                     });
                     lightingDrivers.values().forEach(s -> {
-                        LightingMessage message = LightingMessage.builder().deviceId(s.getId()).deviceName(s.getName()).deviceStatus(LightingStatus.off).build();
+                        LightingMessage message = LightingMessage.builder().deviceId(s.getId()).deviceName(s.getName()).deviceStatus(LightingStatus.reset).build();
                         controlLight(message);
                     });
                 });

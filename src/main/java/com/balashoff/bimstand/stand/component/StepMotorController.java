@@ -33,9 +33,12 @@ public class StepMotorController implements Runnable {
                 if(!statusAfterAction.equals(CurtainsStatus.undef)){
                     consumeStatus.accept(statusAfterAction);
                 }
+                if(queueOfStatus.size() == 99){
+                    queueOfStatus.clear();
+                }
 
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                log.warn(e.getMessage());
             }
         }while (true);
     }
